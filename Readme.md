@@ -17,6 +17,7 @@ This runs the pipeline in local scheduler mode.
 - Logs are stored in luigi.log file
 - The config parameters for each task in the pipeline are stored in luigi.cfg file. The **luigi_prod.cfg** file is for when we run in production environment.
 - Input parameters can be changed in the config file.
+- Tests are present in test folder which can be run using  `python -m unittest test_trending.TrendingTestCase`
 
 
 #### Luigi Pipeline components in main.py -
@@ -55,34 +56,3 @@ This runs the pipeline in local scheduler mode.
 
 4. How can you automate deployment and testing of your solution?
 - Using a service like Azure devops or Github Actions we can create a .yml file to automatically trigger the build-test-deploy workflow.
-
-```
-name: py
-    
-    on:
-      schedule:
-        - cron: "0 0 * * *" #runs at 00:00 UTC everyday
-    
-    jobs:
-      build:
-        runs-on: ubuntu-latest
-    
-        steps:
-          - name: checkout repo content
-            uses: actions/checkout@v2 # checkout the repository content to github runner.
-          - name: setup python
-            uses: actions/setup-python@v2
-            with:
-              python-version: 3.9 #install the python needed
-          - name: install requirements
-              python -m pip install --upgrade pip
-              pip install -r requirements.txt
-          - name: execute py script # run the run.py to get the latest data
-            run: |
-              python -m luigi --module main ComputeSubredditScores --local-scheduler
-            env:
-              key: ${{ secrets.key }} # if run.py requires passwords..etc, set it as secrets
-          - name: export index
-            .... # use crosponding script or actions to help export.
-
-```
