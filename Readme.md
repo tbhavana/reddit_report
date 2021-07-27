@@ -9,6 +9,7 @@
    - password=add password here 
 3. Run the pipeline using the command `python -m luigi --module main ComputeSubredditScores --local-scheduler >>luigi_dev.log 2>&1`
 This runs the pipeline in local scheduler mode.
+4. A file named "SubredditScore_{datetime}" will be created which will have the final scores.
 
 #### Note - 
 
